@@ -1,0 +1,35 @@
+extends ./Main_Layout.pug
+
+block styles_1
+    link(rel='stylesheet' href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous")
+    link(rel='stylesheet' href="/css/other_pages.css")
+    link(rel='stylesheet' href="/css/table.css")
+block script_1
+    script(src='js/sticky.js')
+    script(src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous")
+    script(src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous")
+    script(src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous")
+block content
+    br
+    br 
+    br
+    br
+    br
+    div(class="Users_heading" style="text-align: center")
+        h1(style="color:white; text-shadow: 1px 1px 2px black, 0 0 25px silver, 0 0 5px darkblue;") Users Information 
+        br
+        a(href="/create" class="btn btn-primary" style="text-align: center;") New User
+    br
+    hr
+    div(class="card-deck")
+        each sh in variables.users
+            div(class="col-xs-12 col-md-4 col-lg-3")
+                div(class="shadow p-3 mb-5 bg-white rounded")
+                    a(href="/users/" + sh._id)
+                        div(class="card")
+                            img(class="card-img-top" src='/img/users/' + sh.image alt="sh.image" style="height:250px;width:100%;")
+                            div(class="card-body")
+                                h5(class="card-title")= sh.name
+                                p(class="card-text")= sh.email
+                                a(href="/delete/" + sh._id class="btn btn-danger") Delete
+                                a(href="/update/" + sh._id class="btn btn-info") Update 

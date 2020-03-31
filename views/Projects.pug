@@ -1,0 +1,37 @@
+extends ./Main_Layout.pug
+
+block styles_1
+    link(rel='stylesheet' href="/css/other_pages.css")
+    link(rel='stylesheet' href="/css/table.css")
+block content
+    br
+    br
+    br
+    br
+    br
+    div(class="Users_heading" style="text-align: center")
+        h1(style="color:white; text-shadow: 1px 1px 2px black, 0 0 25px silver, 0 0 5px darkblue;") AI Projects  
+    table(style="box-shadow: 10px 10px 5px #888;")
+        thead(style="background-image : linear-gradient(-90deg, rgb(85, 3, 3, 0.6), rgb(12, 106, 160, 0.6))")
+            tr 
+                th(scope='col') Project/ Code
+                th(scope='col') Type (ML/DL/NLP/DS/AI)
+                th(scope='col') Description
+                th(scope='col') Programming Language
+                th(scope='col') Uploaded By
+                th(scope='col') Uploaded Date
+                th(scope='col') Download
+        tbody
+            each proj in projectsVariables.projects
+                a(href="/Projects/" + proj._id)
+                    tr
+                        td
+                            a(href='/img/users/' + proj.project style="text-decoration:none")=proj.name
+                        td=proj.type
+                        td=proj.descr
+                        td=proj.lang
+                        td=proj.userName
+                        td=proj.date
+                        td
+                            a(href="/downloadproject/" + proj._id class="btn btn-info") Download
+    br

@@ -1,0 +1,14 @@
+#container {
+    display: table;
+}
+
+#row  {
+    display: table-row;
+}
+
+#left, #right, #middle {
+    display: table-cell;
+}
+
+#left1, #right1, #middle1 {
+    display: table-cell;

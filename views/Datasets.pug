@@ -1,0 +1,44 @@
+extends ./Main_Layout.pug 
+
+block styles_1
+    link(rel='stylesheet' href="/css/other_pages.css")
+    link(rel='stylesheet' href="/css/table.css")
+block content
+    br
+    br
+    br
+    br
+    br
+    div(class="Users_heading" style="text-align: center")
+        h1(style="color:white; text-shadow: 1px 1px 2px black, 0 0 25px silver, 0 0 5px darkblue;") Datasets 
+        h4(style="color:white; text-shadow: 1px 1px 2px black, 0 0 25px silver, 0 0 5px darkblue;") Datasets for easy downloading
+        br
+        a(href="/Upload_dataset" class="w3-btn w3-blue" style="background-color:red,text-align: center;") Upload Dataset
+    br
+    table(style="box-shadow: 10px 10px 5px #888;")
+        thead(style="background-image : linear-gradient(-90deg, rgb(85, 3, 3, 0.6), rgb(12, 106, 160, 0.6));")
+            tr 
+                th(scope='col') Dataset
+                th(scope='col') Type (text/audio/video)
+                th(scope='col') Description
+                th(scope='col') Uploaded By
+                th(scope='col') Uploaded Date
+                th(scope='col') Download
+                th(scope='col') Delete
+        tbody
+            each data in datasetsVariables.datasets
+                a(href="/Datasets/" + data._id)
+                    tr
+                        td
+                            a(href='/img/superheroes/' + data._dataset style="color:blue,text-decoration:none")=data.name
+                        td=data.type
+                        td=data.desc
+                        td=data.authName
+                        td=data.uplDate
+                        td
+                            a(href="/download/" + data._id class="btn btn-info") Download
+                        td 
+                            a(href="/delete_dataset/" + data._id class="btn btn-danger") Delete
+   
+    
+                

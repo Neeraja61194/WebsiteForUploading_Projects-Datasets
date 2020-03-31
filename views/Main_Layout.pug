@@ -1,0 +1,27 @@
+doctype html
+html
+    head
+        title Simple site to Upload AI Projects
+        link(rel='stylesheet' href="/css/index.css")
+        block styles
+        script(src="/js/typewrite.js")
+        script(src='js/sticky.js')
+        block scripts
+    header
+      a(href='#about') About
+      ul#nav.nav
+        li
+          a(href='/contact') Contact
+    #myHeader.header
+      .navbar
+        a(href='/') Home
+        a(href='/Learn') Learning
+        a(href='/Datasets') Datasets
+        a(href='/Projects') Projects
+        a(href='/Users') Users
+        
+    body
+      block styles_1
+      block script_1
+      block content
+    

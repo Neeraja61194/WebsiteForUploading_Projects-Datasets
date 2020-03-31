@@ -1,0 +1,35 @@
+extends ./Main_Layout.pug
+
+block styles_1
+    link(rel='stylesheet' href="/css/contact.css")
+  
+block content
+  br
+  br
+  br
+  br
+  br
+  br
+  body
+    h2 Contact Section
+    .container
+      div(style='text-align:center')
+        h2 Contact Us
+        p Swing by for a cup of coffee, or leave us a message:
+      .row
+        .column
+          img(src='/w3images/map.jpg', style='width:100%')
+        .column
+          form(action='/action_page.php')
+            label(for='fname') First Name
+            input#fname(type='text', name='firstname', placeholder='Your name..')
+            label(for='lname') Last Name
+            input#lname(type='text', name='lastname', placeholder='Your last name..')
+            label(for='country') Country
+            select#country(name='country')
+              option(value='australia') Australia
+              option(value='canada') Canada
+              option(value='usa') USA
+            label(for='subject') Subject
+            textarea#subject(name='subject', placeholder='Write something..', style='height:170px')
+            input(type='submit', value='Submit')
