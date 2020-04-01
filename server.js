@@ -6,7 +6,15 @@ const ObjectID = require('mongodb').ObjectID;
 const url = 'mongodb://localhost:27017';
 const path = require('path')
 const nodemailer = require('nodemailer');
+require('dotenv').config();
 
+let transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: process.env.EMAIL,
+        pass: process.env.PASSWORD
+    }
+});
 
 const bodyParser = require('body-parser');
 const urlencodedParser = bodyParser.urlencoded({ extended: false });
@@ -58,10 +66,9 @@ app.get('/Datasets', (req, res) => {
             client.close();
             documents.reverse();
             const datasetsVariables = {
-                //pageTitle: "First page of our app",
+                pageTitle: "First page of our app",
                 datasets: documents
             }
-			//console.log("datasetsVariables",datasetsVariables)
             res.render('Datasets', { datasetsVariables: datasetsVariables });
         });
     });
@@ -147,6 +154,24 @@ app.post('/datasets', upload.single('file'), (req, res) => {
         const collection = db.collection('datasets');
 
         collection.insertOne(newDataset);
+        
+        let mailOptions = {
+            from: 'neerajajithinp@gmail.com',
+            to: 'neerajan.mec@gmail.com',
+            subject: 'Email Notification from AI Website - New Dataset',
+            text: `A new Dataset is added to the collection by ${req.body.authorName}. The details are :
+            1. Name : ${req.body.name}
+            2. Type : ${req.body.type}
+            3. Description ; ${req.body.description}`
+        };
+
+        transporter.sendMail(mailOptions, function(err, data){
+            if(err) {
+                console.log('Error Occurs !!!!!')
+            } else {
+                console.log('Email notification Sent to the Admin after a Dataset is Added!!');
+            }
+        });
 
         client.close();
         res.redirect('/Datasets');
@@ -189,9 +214,7 @@ app.get('/users/:id', (req, res) => {
         const selectedId = req.params.id;
 
         collection.find({ "_id": ObjectID(selectedId) }).toArray((error, documents) => {
-			//console.log("USERNAME -",documents[0].name)
 			db.collection('projects').find({"userName":documents[0].name}).toArray(function(err, projectList) {
-				//console.log("projectList -",projectList)
 				client.close();
 				res.render('user', { user: documents[0] ,projectList:projectList });
 			});			
@@ -255,12 +278,9 @@ app.get('/Upload_Project', (req, res) => {
 		var userNameList = []
         collection.find({}).toArray((error, documents) => {
             client.close();
-			console.log("documents",documents)
 			documents.forEach(document => { 
-				console.log(document.name); 
 				userNameList.push(document.name);
 			}); 
-			console.log("userNameList -",userNameList)
             res.render('Upload_Project', { userNameList: userNameList});
         });
     });
@@ -315,28 +335,6 @@ app.post('/user', upload.single('file'), (req, res) => {
         collection.insertOne(newProject);
 
         client.close();
-        
-        let transport = nodemailer.createTransport({
-            host: 'smtp.mailtrap.io',
-            port: 3000,
-            auth: {
-               user: 'jithinperumpally',
-               pass: 'perumpally'
-            }
-        });
-        const message = {
-            from: 'neerajajithinp@gmail.com', // Sender address
-            to: 'neerajan.mec@gmail.com',         // List of recipients
-            subject: 'Design Your Model S | Tesla', // Subject line
-            text: 'Have the most fun you can in a car. Get your Tesla today!' // Plain text body
-        };
-        transport.sendMail(message, function(err, info) {
-            if (err) {
-              console.log(err)
-            } else {
-              console.log(info);
-            }
-        });
         res.redirect('/Projects');
     });
 });
@@ -360,6 +358,26 @@ app.post('/users', upload.single('file'), (req, res) => {
 
         collection.insertOne(newUser);
 
+        let mailOptions_user = {
+            from: 'neerajajithinp@gmail.com',
+            to: 'neerajan.mec@gmail.com',
+            subject: 'Email Notification from AI Website - New User',
+            text: `A New User created an account in the AI Website. 
+            The details are :
+            1. Name : ${req.body.user}
+            2. Email : ${req.body.userEmail}
+            3. Designation/ Job Title : ${req.body.designation}
+            4. Description ; ${req.body.description}`
+        };
+
+        transporter.sendMail(mailOptions_user, function(err, data){
+            if(err) {
+                console.log('Error Occurs !!!!!')
+            } else {
+                console.log('Email notification Sent to the Admin after a New User Account is created!!');
+            }
+        });
+
         client.close();
         res.redirect('/Users');
     });
@@ -380,7 +398,7 @@ app.post('/userUpdate/:id', upload.single('file'), (req, res) => {
         }
 
         if (req.file){
-            console.log("Updating image");
+            
             updateObject.image = req.file.filename;
         }
         
